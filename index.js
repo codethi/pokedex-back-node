@@ -16,12 +16,50 @@ Agora basta digitar no terminal: npm start (roda sem o nodemon) ou npm run dev (
 
 // Template inicial de uma aplicação com express
 const express = require('express') /* Importa o express para a const express */
+var bodyParser = require('body-parser')
 const app = express() /*  Inicializa o express na const app */
+
 const port = 3000 /* Para evitar repetição de valor, insiro a porta em uma const */
 
-/* Rota inicial, respondendo(res) 'Hello World' */
-app.get('/', (req, res) => {
-  res.send('Hello World')
+app.use(bodyParser.json())
+
+const pokedex = [
+  'pikachu',
+  'raiochu'
+]
+
+// [GET] - /pokedex
+app.get('/pokedex', (req, res) => {
+  res.send(pokedex.filter(Boolean)) // filter(Boolean) mostra apenas o que tiver valor.
+})
+
+// [GET] - /pokedex/{id}
+app.get('/pokedex/:id', (req, res) => {
+  const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
+  const pokemon = pokedex[id]
+  res.send(pokemon)
+})
+
+// [POST] - /pokedex
+app.post('/pokedex', (req, res) => {
+  const pokemon = req.body.pokemon
+  pokedex.push(pokemon)
+  res.send(`Pokemon inserido com sucesso: ${pokemon}`)
+})
+
+// [PUT] - /pokedex/id
+app.put('/pokedex/:id', (req, res) => {
+  const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
+  const pokemon = req.body.pokemon
+  pokedex[id] = pokemon
+  res.send(`Pokemon atualizado com sucesso: ${pokemon}`)
+})
+
+// [PUT] - /pokedex/id
+app.delete('/pokedex/:id', (req, res) => {
+  const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
+  delete pokedex[id]
+  res.send(`Pokemon removido com sucesso: ${pokedex}`)
 })
 
 /* Porta pela qual meu app vai ser chamado, ele vai ficar 'ouvindo' quem me chamar pela porta 300 (http:localhost:3000) */

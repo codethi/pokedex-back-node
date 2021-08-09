@@ -44,3 +44,5 @@ BODY:
 {
     "mensagem": "Menssagem na requisição"
 }
+
+JSON -> JavaScript Object Notation
