@@ -1,0 +1,46 @@
+Back-end API REST:
+
+Protocolo de comunicação (que é como a gente troca ideia): HTTP ou https
+ID: localhost ou 127.0.0.1
+Porta: 3000
+
+URI: http://localhost:3000/ (Junção da URL e da porta)
+Rota ou Endponit: /
+
+Posso criar novos caminhos dentro da mesma URL
+Em um site, novos caminhos geralmente levam a páginas diferentes
+
+URI: http://localhost:3000/hello
+Rota ou Endponit: /hello
+
+Todas as requisições possuem VERBOS
+
+REST: Verbos especificos para as requisições
+RESTfull: Uma aplicação (API) capaz de se comunicar com verbos REST
+
+[GET] http://localhost:3000/hello
+[POST] http://localhost:3000/hello
+
+No mesmo caminho nós podemos mudar o verbo e realizar uma operação diferentes
+
+GET -> Obter informações
+POST -> Criar informações novas
+PUT -> Atualizar informações já existentes
+DELETE -> Remover informações já existentes
+
+É o famoso CRUD (Create, Read, Update e Delete)
+
+É necessário usar esses verbos apenas para realizar essas operações? NÃO, mas por boas práticas de arquitetura de software (como o software é construido), devemos usa-las.
+
+Toda requisição possui três coisas:
+URL -> Endereço da requisição, rota ou endpoint
+HEADER -> Informações de configuração, segurança e processamento 
+BODY -> Envio de informações extras, corpo da requisição.
+
+Não é recomendável que você envie BODY em requisições GET, pois nem todo lugar consegue receber um body na requisição. Mas para realizar um POST, PUT ou DELETE, podemos usar o BODY, por exemplo em um POST:
+
+[POST] http://localhost:3000/hello
+BODY:
+{
+    "mensagem": "Menssagem na requisição"
+}
