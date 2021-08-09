@@ -24,8 +24,11 @@ const port = 3000 /* Para evitar repetição de valor, insiro a porta em uma con
 app.use(bodyParser.json())
 
 const pokedex = [
-  'pikachu',
-  'raiochu'
+  /* {
+    "id": 1,
+    "nome": "Bulbasaur",
+    "tipo": "Grass"
+  } */
 ]
 
 // [GET] - /pokedex
@@ -37,12 +40,27 @@ app.get('/pokedex', (req, res) => {
 app.get('/pokedex/:id', (req, res) => {
   const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
   const pokemon = pokedex[id]
+
+  /* Se não existir um pokemon, retorne essa mensagem.*/
+  if(!pokemon){
+    res.send("Pokemon não encontrado")
+    return
+  }
+
   res.send(pokemon)
+  
 })
 
 // [POST] - /pokedex
 app.post('/pokedex', (req, res) => {
-  const pokemon = req.body.pokemon
+  const pokemon = req.body
+
+  if (!pokemon || !pokemon.nome || !pokemon.tipo){
+    res.send('Pokemon inválido')
+    return
+  }
+
+  pokemon.id = pokedex.length + 1 /* Cria id's diferentes a cada post */
   pokedex.push(pokemon)
   res.send(`Pokemon inserido com sucesso: ${pokemon}`)
 })
@@ -50,14 +68,24 @@ app.post('/pokedex', (req, res) => {
 // [PUT] - /pokedex/id
 app.put('/pokedex/:id', (req, res) => {
   const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
-  const pokemon = req.body.pokemon
-  pokedex[id] = pokemon
+  const pokemon = pokedex[id]
+  const nome = req.body.nome
+  const tipo = req.body.tipo
+
+  if (!nome || !tipo){
+    res.send('Pokemon inválido.')
+    return
+  }
+
+  pokemon.nome = nome
+  pokemon.tipo = tipo
+
   res.send(`Pokemon atualizado com sucesso: ${pokemon}`)
 })
 
-// [PUT] - /pokedex/id
+// [DELETE] - /pokedex/id
 app.delete('/pokedex/:id', (req, res) => {
-  const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
+  const id = req.params.id - 1  // Pega o parametro enviado na requisição da rota
   delete pokedex[id]
   res.send(`Pokemon removido com sucesso: ${pokedex}`)
 })
