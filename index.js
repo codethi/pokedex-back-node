@@ -23,13 +23,7 @@ const port = 3000 /* Para evitar repetição de valor, insiro a porta em uma con
 
 app.use(bodyParser.json())
 
-const pokedex = [
-  /* {
-    "id": 1,
-    "nome": "Bulbasaur",
-    "tipo": "Grass"
-  } */
-]
+const pokedex = []
 
 // [GET] - /pokedex
 app.get('/pokedex', (req, res) => {
@@ -38,8 +32,8 @@ app.get('/pokedex', (req, res) => {
 
 // [GET] - /pokedex/{id}
 app.get('/pokedex/:id', (req, res) => {
-  const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
-  const pokemon = pokedex[id]
+  const id = +req.params.id // Pega o parametro enviado na requisição da rota | O + transforma o parmetro em number.
+  const pokemon = pokedex.filter(Boolean).find(p => p.id === id) // procura o id dentro de cada objeto.
 
   /* Se não existir um pokemon, retorne essa mensagem.*/
   if(!pokemon){
@@ -67,8 +61,8 @@ app.post('/pokedex', (req, res) => {
 
 // [PUT] - /pokedex/id
 app.put('/pokedex/:id', (req, res) => {
-  const id = req.params.id - 1 // Pega o parametro enviado na requisição da rota
-  const pokemon = pokedex[id]
+  const id = +req.params.id// Pega o parametro enviado na requisição da rota | O + transforma o parmetro em number.
+  const pokemon = pokedex.filter(Boolean).find(p => p.id === id)
   const nome = req.body.nome
   const tipo = req.body.tipo
 
@@ -85,8 +79,19 @@ app.put('/pokedex/:id', (req, res) => {
 
 // [DELETE] - /pokedex/id
 app.delete('/pokedex/:id', (req, res) => {
-  const id = req.params.id - 1  // Pega o parametro enviado na requisição da rota
-  delete pokedex[id]
+  const id = +req.params.id  // Pega o parametro enviado na requisição da rota | O + transforma o parmetro em number.
+
+  /* Para deletar, eu preciso pegar o pokemon na lista, achar o index dele na lista e depois apagar ele pelo index da lista. */
+  const pokemon = pokedex.filter(Boolean).find(p => p.id === id)
+
+  if (!pokemon){
+    res.send(`Pokemon não encontrado!`)
+    return
+  }
+
+  const index = pokedex.indexOf(pokemon)
+  delete pokedex[index]
+
   res.send(`Pokemon removido com sucesso: ${pokedex}`)
 })
 
