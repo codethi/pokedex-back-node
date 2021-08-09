@@ -16,7 +16,7 @@ Agora basta digitar no terminal: npm start (roda sem o nodemon) ou npm run dev (
 
 // Template inicial de uma aplicação com express
 const express = require('express') /* Importa o express para a const express */
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser') /* instalar via terminal: npm i body-parser */
 const app = express() /*  Inicializa o express na const app */
 
 const port = 3000 /* Para evitar repetição de valor, insiro a porta em uma const */
