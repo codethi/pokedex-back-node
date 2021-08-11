@@ -1,0 +1,82 @@
+SQL vs NoSQL
+
+Bancos SQL: MySQL, MariaDB, PostgreSQL, SQL Server, Oracle SQL 
+
+SQL: Structured Query Language (Linguagem estruturada de consulta)
+Banco de dados relacionais, em que os dados estão relacionados de alguma forma.
+Tabela e registros
+Toda tecnologia de banco de dados vai oferecer uma forma da gente executar as operações básicas(CRUD - CREATE, READ, UPDATE, DELETE)
+Registros possuem IDs e podem estar conectados com outros registros da mesma tabela ou de tabelas diferentes.
+Tabelas possuem colunas
+Tabela: Pokemon
+ID: INT(11)
+Nome: VARCHAR(255) 
+Tipo: VARCHAR(255) 
+Imagem: VARCHAR(255) 
+Descricao: VARCHAR(255) 
+
+Exemplo de Pokemon:
+id: 1,
+nome: Charmander
+tipo: Fire
+imagem: link
+descricao: lorem
+
+Qual o contra do SQL? 
+
+O SQL é mais restrito a mudanças na minha tabela, quando eu a construir, preciso construir do jeito que será pra sempre, se eu quiser que uma coluna receba tipos de dados diferentes, eu não consigo. Ou seja, é um banco nada flexivel.
+
+----------------------------------------------------
+
+NoSQL
+
+Bancos NoSQL: MongoDB, DynamoDB, Cassandra, Redis
+
+As diferenças entre os bancos são muito grandes, cada tecnologia tem suas caracteristicas.
+
+Baixe o MongoDB: https://www.mongodb.com/try/download/community
+
+
+
+Criar um banco de dados:
+
+Abra o MongoDBCompass
+Crie um novo banco de dados
+Crie uma collection, que é equivalente a uma tabela
+Para o mongodb não importa os campos que a colection terá
+O mongo vai guardar documentos
+Importar um arquivo .json, com os objetos dentro de um array
+Ele criou um id automático, pois toda colection no mongo tem que ter um id, que é um ObjectId com um hashcode
+
+query de CRUD no MongoDB
+
+CREATE: db.pokemon.insert({
+    "nome": "Bulbasaur",
+    "tipo": "Grass",
+    "imagem": "https://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png",
+    "descricao": "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger."
+})
+
+READ ALL: db.pokemon.find({})
+
+READE SINGLE(by id):  db.pokemon.find({ _id: ObjectId('"6113ff4decd7e9806228fce2"')})
+
+UPDATE: 
+{
+    {
+        _id: ObjectId('"6113ff4decd7e9806228fce2"')
+    },
+    {
+        $set: {
+            nome: "Thiago"
+        }
+    }
+}
+
+DELETE: db.pokemon.remove{ _id: ObjectId('"6113ff4decd7e9806228fce2"') }
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+NodeJs + MongoDB
+
+Instalar via terminal: npm i mongodb
